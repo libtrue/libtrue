@@ -1,10 +1,5 @@
 # $FreeBSD$
 
-LIB=		true
-SHLIB_MAJOR=	0
+SUBDIR=	libtrue true
 
-SRCS=		true.c
-
-MAN=
-
-.include <bsd.lib.mk>
+.include <bsd.subdir.mk>
