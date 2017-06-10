@@ -26,9 +26,9 @@
  * $FreeBSD$
  */
 
-#ifndef __LIBTRUE_TRUE_H__
-#define	__LIBTRUE_TRUE_H__
+#ifndef __LIBTRUE_FALSE_H__
+#define	__LIBTRUE_FALSE_H__
 
 bool get_false(void);
 
-#endif /* !__LIBTRUE_TRUE_H__ */
+#endif /* !__LIBTRUE_FALSE_H__ */
