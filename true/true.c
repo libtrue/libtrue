@@ -29,6 +29,8 @@
 __FBSDID("$FreeBSD$");
 
 #include <err.h>
+#include <libxo/xo.h>
+#include <locale.h>
 #include <stdbool.h>
 
 #include <true.h>
@@ -36,9 +38,21 @@ __FBSDID("$FreeBSD$");
 int
 main(int argc, char *argv[])
 {
+	int value = get_true();
 
-	if (!get_true())
-		errx(1, "Bad true value");
+	(void) setlocale(LC_CTYPE, "");
+
+	argc = xo_parse_args(argc, argv);
+	if (argc < 0)
+		return (argc);
+
+	xo_open_container("true");
+	if (!value) {
+		xo_errx(1, "Bad true value {:value/%u}\n", value);
+	}
+	xo_emit("{:value/%u}\n", value);
+	xo_close_container("true");
+	xo_finish();
 
 	return (0);
 }
