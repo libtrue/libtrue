@@ -30,6 +30,7 @@ __FBSDID("$FreeBSD$");
 
 #include <sys/capsicum.h>
 
+#include <capsicum_helpers.h>
 #include <err.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -39,6 +40,9 @@ __FBSDID("$FreeBSD$");
 int
 main(int argc, char *argv[])
 {
+
+	if (caph_limit_stdio() != 0)
+		errx(1, "Failed to limit std{in,out,err}");
 
 	if (cap_enter() != 0 && errno != ENOSYS)
 		errx(1, "Failed to enter capability mode");
