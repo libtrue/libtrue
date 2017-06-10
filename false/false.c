@@ -1,5 +1,6 @@
 /*-
  * Copyright (c) 2017 Andrew Turner
+ * Copyright (c) 2017 Bryan Drewery
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,12 +24,22 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $FreeBSD$
  */
 
-#ifndef __LIBTRUE_TRUE_H__
-#define	__LIBTRUE_TRUE_H__
+#include <sys/cdefs.h>
+__FBSDID("$FreeBSD$");
 
-bool get_true(bool);
+#include <err.h>
+#include <stdbool.h>
 
-#endif /* __LIBTRUE_TRUE_H__ */
+#include <true.h>
+
+int
+main(int argc, char *argv[])
+{
+
+	if (get_true(false))
+		errx(1, "Bad true value");
+
+	return (1);
+}

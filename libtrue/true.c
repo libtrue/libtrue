@@ -32,8 +32,8 @@ __FBSDID("$FreeBSD$");
 #include "true.h"
 
 bool
-get_true(void)
+get_true(bool value)
 {
 
-	return (true);
+	return (value);
 }

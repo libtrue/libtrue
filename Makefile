@@ -1,5 +1,5 @@
 # $FreeBSD$
 
-SUBDIR=	libtrue true
+SUBDIR=	libtrue false true
 
 .include <bsd.subdir.mk>
