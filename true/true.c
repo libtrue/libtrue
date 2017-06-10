@@ -25,12 +25,18 @@
  *
  */
 
+#if defined(__FreeBSD__)
+#define	WITH_CAPSICUM
+#endif
+
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
 
+#ifdef WITH_CAPSICUM
 #include <sys/capsicum.h>
-
 #include <capsicum_helpers.h>
+#endif
+
 #include <dlfcn.h>
 #include <err.h>
 #include <errno.h>
@@ -46,6 +52,7 @@ main(int argc, char *argv[])
 	void *handle;
 	char *app;
 
+#ifdef WITH_CAPSICUM
 	if (caph_limit_stdio() != 0)
 		errx(1, "Failed to limit std{in,out,err}");
 
@@ -57,6 +64,7 @@ main(int argc, char *argv[])
 
 	if (cap_enter() != 0 && errno != ENOSYS)
 		errx(1, "Failed to enter capability mode");
+#endif
 
 	snprintf(buf, sizeof(buf), "get_%s", app);
 	func = dlsym(handle, buf);
