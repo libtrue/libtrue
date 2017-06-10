@@ -29,6 +29,6 @@
 #ifndef __LIBTRUE_TRUE_H__
 #define	__LIBTRUE_TRUE_H__
 
-bool get_true(void);
+bool get_true(bool);
 
 #endif /* !__LIBTRUE_TRUE_H__ */

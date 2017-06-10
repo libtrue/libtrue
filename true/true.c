@@ -37,7 +37,7 @@ int
 main(int argc, char *argv[])
 {
 
-	if (!get_true())
+	if (!get_true(true))
 		errx(1, "Bad true value");
 
 	return (0);

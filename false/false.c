@@ -1,5 +1,6 @@
 /*-
  * Copyright (c) 2017 Andrew Turner
+ * Copyright (c) 2017 Bryan Drewery
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,12 +29,17 @@
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
 
+#include <err.h>
 #include <stdbool.h>
-#include "true.h"
 
-bool
-get_true(bool value)
+#include <true.h>
+
+int
+main(int argc, char *argv[])
 {
 
-	return (value);
+	if (get_true(false))
+		errx(1, "Bad true value");
+
+	return (1);
 }
