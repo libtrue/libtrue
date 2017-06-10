@@ -33,11 +33,20 @@ __FBSDID("$FreeBSD$");
 
 #include <true.h>
 
+#ifdef HAVE_DTRACE
+#include "true-dtrace.h"
+#else
+#define	TRUTHINESSPROV_BOOLVAL(val)
+#endif
+
 int
 main(int argc, char *argv[])
 {
+	bool val;
 
-	if (!get_true())
+	val = get_true();
+	TRUTHINESSPROV_BOOLVAL(val);
+	if (!val)
 		errx(1, "Bad true value");
 
 	return (0);
