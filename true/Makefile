@@ -2,8 +2,8 @@
 
 PROG=	true
 
-CFLAGS=	-I${.CURDIR}/../libtrue
-LDADD=	-L${.CURDIR}/../libtrue -ltrue
+CFLAGS=	-I${.CURDIR:H}/libtrue
+LDADD=	-L../libtrue -ltrue
 
 MAN=
 
