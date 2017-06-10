@@ -34,6 +34,5 @@ __FBSDID("$FreeBSD$");
 bool
 get_true(void)
 {
-
 	return (true);
 }
