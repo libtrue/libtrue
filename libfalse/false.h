@@ -23,45 +23,12 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * $FreeBSD$
  */
 
-#include <sys/cdefs.h>
-__FBSDID("$FreeBSD$");
+#ifndef __LIBTRUE_TRUE_H__
+#define	__LIBTRUE_TRUE_H__
 
-#include <sys/capsicum.h>
+bool get_false(void);
 
-#include <capsicum_helpers.h>
-#include <dlfcn.h>
-#include <err.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-
-int
-main(int argc, char *argv[])
-{
-	bool (*func)(void);
-	char buf[16];
-	void *handle;
-	char *app;
-
-	if (caph_limit_stdio() != 0)
-		errx(1, "Failed to limit std{in,out,err}");
-
-	app = strstr(argv[0], "true") ? "true" : "false";
-	snprintf(buf, sizeof(buf), "lib%s.so", app);
-	handle = dlopen(buf, RTLD_GLOBAL | RTLD_LAZY);
-	if (handle == NULL)
-		errx(1, "Unable to load shared app");
-
-	if (cap_enter() != 0 && errno != ENOSYS)
-		errx(1, "Failed to enter capability mode");
-
-	snprintf(buf, sizeof(buf), "get_%s", app);
-	func = dlsym(handle, buf);
-	if (func == NULL)
-		errx(1, "Fake function");
-
-	return (!(func() == true));
-}
+#endif /* !__LIBTRUE_TRUE_H__ */
