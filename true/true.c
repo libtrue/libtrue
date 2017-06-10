@@ -28,7 +28,10 @@
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
 
+#include <sys/capsicum.h>
+
 #include <err.h>
+#include <errno.h>
 #include <stdbool.h>
 
 #include <true.h>
@@ -36,6 +39,9 @@ __FBSDID("$FreeBSD$");
 int
 main(int argc, char *argv[])
 {
+
+	if (cap_enter() != 0 && errno != ENOSYS)
+		errx(1, "Failed to enter capability mode");
 
 	if (!get_true())
 		errx(1, "Bad true value");
