@@ -50,6 +50,14 @@ main(int argc, char *argv[])
 {
 	int value;
 
+#ifdef WITH_CAPSICUM
+	if (caph_limit_stdio() != 0)
+		errx(1, "Failed to limit std{in,out,err}");
+
+	if (cap_enter() != 0 && errno != ENOSYS)
+		errx(1, "Failed to enter capability mode");
+#endif
+
 	(void) setlocale(LC_CTYPE, "");
 
 	argc = xo_parse_args(argc, argv);
@@ -67,14 +75,6 @@ main(int argc, char *argv[])
 	xo_emit("{n:value/%s}", value ? "true" : "false");
 	xo_close_container("true");
 	xo_finish();
-
-#ifdef WITH_CAPSICUM
-	if (caph_limit_stdio() != 0)
-		errx(1, "Failed to limit std{in,out,err}");
-
-	if (cap_enter() != 0 && errno != ENOSYS)
-		errx(1, "Failed to enter capability mode");
-#endif
 
 	return (0);
 }
