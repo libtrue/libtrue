@@ -1,3 +1,5 @@
 language: c
-install: pmake
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y pmake
 script: pmake
