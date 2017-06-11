@@ -1,9 +1,7 @@
 # $FreeBSD$
 
 PROG=	true
-
-CFLAGS=	-I${.CURDIR:H}/libtrue
-LDADD=	-L../libtrue -ltrue
+SYMLINKS= true false
 
 MAN=
 

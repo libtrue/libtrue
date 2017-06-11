@@ -23,53 +23,12 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * $FreeBSD$
  */
 
-#if defined(__FreeBSD__)
-#define	WITH_CAPSICUM
-#endif
+#ifndef __LIBTRUE_FALSE_H__
+#define	__LIBTRUE_FALSE_H__
 
-#include <sys/cdefs.h>
-__FBSDID("$FreeBSD$");
+bool get_false(void);
 
-#ifdef WITH_CAPSICUM
-#include <sys/capsicum.h>
-#include <capsicum_helpers.h>
-#endif
-
-#include <dlfcn.h>
-#include <err.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-
-int
-main(int argc, char *argv[])
-{
-	bool (*func)(void);
-	char buf[16];
-	void *handle;
-	char *app;
-
-#ifdef WITH_CAPSICUM
-	if (caph_limit_stdio() != 0)
-		errx(1, "Failed to limit std{in,out,err}");
-
-	app = strstr(argv[0], "true") ? "true" : "false";
-	snprintf(buf, sizeof(buf), "lib%s.so", app);
-	handle = dlopen(buf, RTLD_GLOBAL | RTLD_LAZY);
-	if (handle == NULL)
-		errx(1, "Unable to load shared app");
-
-	if (cap_enter() != 0 && errno != ENOSYS)
-		errx(1, "Failed to enter capability mode");
-#endif
-
-	snprintf(buf, sizeof(buf), "get_%s", app);
-	func = dlsym(handle, buf);
-	if (func == NULL)
-		errx(1, "Fake function");
-
-	return (!(func() == true));
-}
+#endif /* !__LIBTRUE_FALSE_H__ */
