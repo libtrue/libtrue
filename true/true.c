@@ -30,7 +30,6 @@
 #endif
 
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD$");
 
 #ifdef WITH_CAPSICUM
 #include <sys/capsicum.h>
