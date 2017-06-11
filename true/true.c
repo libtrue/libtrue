@@ -62,7 +62,7 @@ main(int argc, char *argv[])
 
 	xo_open_container("true");
 	if (!value) {
-		xo_errx(1, "Bad true value {:value/%u}\n", value);
+		xo_errx(1, "Bad true value: %u", value);
 	}
 	xo_emit("{n:value/%s}", value ? "true" : "false");
 	xo_close_container("true");
