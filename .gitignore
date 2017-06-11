@@ -53,3 +53,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# vagrant thinks
+.vagrant
+*.vdi
+playbook.retry
