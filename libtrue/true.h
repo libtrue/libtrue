@@ -31,4 +31,4 @@
 
 bool get_true(void);
 
-#endif /* __LIBTRUE_TRUE_H__ */
+#endif /* !__LIBTRUE_TRUE_H__ */

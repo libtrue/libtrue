@@ -25,10 +25,20 @@
  *
  */
 
+#if defined(__FreeBSD__)
+#define	WITH_CAPSICUM
+#endif
+
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD$");
 
+#ifdef WITH_CAPSICUM
+#include <sys/capsicum.h>
+#include <capsicum_helpers.h>
+#endif
+
 #include <err.h>
+#include <errno.h>
 #include <libxo/xo.h>
 #include <locale.h>
 #include <stdbool.h>
@@ -38,13 +48,17 @@ __FBSDID("$FreeBSD$");
 int
 main(int argc, char *argv[])
 {
-	int value = get_true();
+	int value;
 
 	(void) setlocale(LC_CTYPE, "");
 
 	argc = xo_parse_args(argc, argv);
 	if (argc < 0)
 		return (argc);
+
+	value = get_true();
+	if (value == 0)
+		errx(1, "Bad true value");
 
 	xo_open_container("true");
 	if (!value) {
@@ -53,6 +67,14 @@ main(int argc, char *argv[])
 	xo_emit("{e:value/%u}", value);
 	xo_close_container("true");
 	xo_finish();
+
+#ifdef WITH_CAPSICUM
+	if (caph_limit_stdio() != 0)
+		errx(1, "Failed to limit std{in,out,err}");
+
+	if (cap_enter() != 0 && errno != ENOSYS)
+		errx(1, "Failed to enter capability mode");
+#endif
 
 	return (0);
 }
