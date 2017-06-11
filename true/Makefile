@@ -4,7 +4,7 @@ PROG=	true
 SRCS=	true.c
 
 CFLAGS=	-I${.CURDIR:H}/libtrue
-LDADD=	-L../libtrue -ltrue
+LDADD=	-L../libtrue -ltrue -lxo
 
 .if !defined(NO_DTRACE)
 SRCS+=	true-dtrace.d
