@@ -25,7 +25,7 @@
  *
  */
 
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) && (__FreeBSD_version > 1200012)
 #define	WITH_CAPSICUM
 #define WITH_XO
 #endif
