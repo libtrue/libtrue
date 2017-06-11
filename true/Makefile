@@ -6,7 +6,7 @@ CFLAGS=	-I${.CURDIR:H}/libtrue
 LDADD=	-L../libtrue -ltrue
 
 OS!=	uname
-.if ${OS} == "FreeBSD"
+.if ${OS} == "FreeBSD" && exists(/usr/lib/libxo.so)
 LDADD+=	-lxo
 .endif
 

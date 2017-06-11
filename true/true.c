@@ -30,6 +30,10 @@
 #define WITH_XO
 #endif
 
+#if defined(__FreeBSD__) && (__FreeBSD_version > 1100041)
+#define	WITH_LIBXO
+#endif
+
 #include <sys/cdefs.h>
 
 #ifdef WITH_CAPSICUM
@@ -39,7 +43,9 @@
 
 #include <err.h>
 #include <errno.h>
-#include <locale.h>
+#ifdef WITH_LIBXO
+#include <libxo/xo.h>
+#endif
 #include <stdbool.h>
 
 #ifdef WITH_XO
@@ -53,7 +59,10 @@ main(int argc, char *argv[])
 {
 	int value;
 
+#ifdef WITH_LIBXO
+
 #ifdef WITH_CAPSICUM
+	value = get_true();
 	if (caph_limit_stdio() != 0)
 		errx(1, "Failed to limit std{in,out,err}");
 
@@ -69,7 +78,6 @@ main(int argc, char *argv[])
 		return (argc);
 #endif
 
-	value = get_true();
 	if (value == 0)
 		errx(1, "Bad true value");
 
