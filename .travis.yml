@@ -1,5 +1,5 @@
 language: c
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y pmake
+  - sudo apt-get install -y pmake splint
 script: pmake
