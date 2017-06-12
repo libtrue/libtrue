@@ -48,10 +48,16 @@
 
 #include <true.h>
 
+#ifdef HAVE_DTRACE
+#include "true-dtrace.h"
+#else
+#define	TRUTHINESSPROV_BOOLVAL(val)
+#endif
+
 int
 main(int argc, char *argv[])
 {
-	int value;
+	bool value;
 
 #ifdef WITH_CAPSICUM
 	if (caph_limit_stdio() != 0)
@@ -70,7 +76,8 @@ main(int argc, char *argv[])
 #endif
 
 	value = get_true();
-	if (value == 0)
+	TRUTHINESSPROV_BOOLVAL(value);
+	if (!value)
 		errx(1, "Bad true value");
 
 #ifdef WITH_XO
