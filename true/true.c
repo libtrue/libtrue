@@ -45,6 +45,7 @@
 #include <errno.h>
 #ifdef WITH_LIBXO
 #include <libxo/xo.h>
+#include <locale.h>
 #endif
 #include <stdbool.h>
 
@@ -59,16 +60,15 @@ main(int argc, char *argv[])
 {
 	int value;
 
-#ifdef WITH_LIBXO
-
 #ifdef WITH_CAPSICUM
-	value = get_true();
 	if (caph_limit_stdio() != 0)
 		errx(1, "Failed to limit std{in,out,err}");
 
 	if (cap_enter() != 0 && errno != ENOSYS)
 		errx(1, "Failed to enter capability mode");
 #endif
+
+	value = get_true();
 
 #ifdef WITH_XO
 	(void) setlocale(LC_CTYPE, "");
@@ -78,14 +78,17 @@ main(int argc, char *argv[])
 		return (argc);
 #endif
 
-	if (value == 0)
-		errx(1, "Bad true value");
-
 #ifdef WITH_XO
 	xo_open_container("true");
+#endif
 	if (!value) {
+#ifdef WITH_XO
 		xo_errx(1, "Bad true value: %u", value);
+#else
+		errx(1, "Bad true value");
+#endif
 	}
+#ifdef WITH_XO
 	xo_emit("{n:value/%s}\n", value ? "true" : "false");
 	xo_close_container("true");
 	xo_finish();
