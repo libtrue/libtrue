@@ -25,9 +25,13 @@
  *
  */
 
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) && (__FreeBSD_version > 1200012)
 #define	WITH_CAPSICUM
 #define WITH_XO
+#endif
+
+#if defined(__FreeBSD__) && (__FreeBSD_version > 1100041)
+#define	WITH_LIBXO
 #endif
 
 #include <sys/cdefs.h>
@@ -39,7 +43,10 @@
 
 #include <err.h>
 #include <errno.h>
+#ifdef WITH_LIBXO
+#include <libxo/xo.h>
 #include <locale.h>
+#endif
 #include <stdbool.h>
 
 #ifdef WITH_XO
@@ -61,6 +68,8 @@ main(int argc, char *argv[])
 		errx(1, "Failed to enter capability mode");
 #endif
 
+	value = get_true();
+
 #ifdef WITH_XO
 	(void) setlocale(LC_CTYPE, "");
 
@@ -69,15 +78,17 @@ main(int argc, char *argv[])
 		return (argc);
 #endif
 
-	value = get_true();
-	if (value == 0)
-		errx(1, "Bad true value");
-
 #ifdef WITH_XO
 	xo_open_container("true");
+#endif
 	if (!value) {
+#ifdef WITH_XO
 		xo_errx(1, "Bad true value: %u", value);
+#else
+		errx(1, "Bad true value");
+#endif
 	}
+#ifdef WITH_XO
 	xo_emit("{n:value/%s}\n", value ? "true" : "false");
 	xo_close_container("true");
 	xo_finish();
