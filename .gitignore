@@ -54,7 +54,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# vagrant thinks
+# vagrant things
 .vagrant
 *.vdi
 playbook.retry
