@@ -1,5 +1,15 @@
 language: c
+
+addons:
+  apt:
+    packages:
+      - pmake
+      - splint
+
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y pmake splint
-script: pmake LINT=splint
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install bsdmake; fi
+
+script:
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pmake LINT=splint; fi
+ - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bsdmake; fi
