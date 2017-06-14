@@ -49,10 +49,6 @@
 #endif
 #include <stdbool.h>
 
-#ifdef WITH_XO
-#include <libxo/xo.h>
-#endif
-
 #include <true.h>
 
 int
