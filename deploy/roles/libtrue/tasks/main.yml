@@ -1,0 +1,10 @@
+---
+- name: Install required packages
+  pkgng: name={{ item }} state=present
+  with_items:
+  - git
+
+- git:
+    repo: 'https://github.com/libtrue/libtrue.git'
+    dest: /home/vagrant/libtrue
+  become: false
