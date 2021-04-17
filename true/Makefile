@@ -2,6 +2,8 @@
 
 PROG=	true
 
+BINDIR=	/usr/bin
+
 CFLAGS=	-I${.CURDIR:H}/libtrue
 LDADD=	-L../libtrue -ltrue
 
